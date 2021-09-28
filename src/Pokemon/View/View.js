@@ -1,18 +1,21 @@
 import React, { useEffect, useState, useContext } from "react";
 import { useParams } from "react-router-dom";
+import AppContext from "../../AppContext/Context";
 import "./View.css";
 
 const PokemonView = () => {
+  const { setToPokedex } = useContext(AppContext);
   const [pokemon, setPokemon] = useState(null);
   const { name } = useParams();
 
   useEffect(() => {
     fetch(`https://pokeapi.co/api/v2/pokemon/${name}`)
       .then((r) => r.json())
-      .then((json) => {
-        setPokemon(json);
+      .then((resultJson) => {
+        setToPokedex(resultJson);
+        setPokemon(resultJson);
       });
-  }, [name]);
+  }, [name, setToPokedex]);
 
   if (!pokemon) {
     return null;
